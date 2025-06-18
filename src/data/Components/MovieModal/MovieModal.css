@@ -1,0 +1,114 @@
+/* Overlay background */
+.modal-overlay {
+    position: fixed;
+    inset: 0; /* shorthand for top/right/bottom/left = 0 */
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* Modal box */
+.modal-content {
+    background: rgb(69, 0, 0);
+    border-radius: 15px;
+    width: 80%;
+    max-width: 800px;
+    max-height: 85%;
+    position: relative;
+    padding: 2%;
+    overflow-y: auto;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.8);
+    animation: slideDown 0.5s ease-out;
+    border: black;
+    border-width: 15px;
+}
+.inner-modal {
+    background: rgba(255, 255, 255, 0.513);
+    color: black;
+    border-radius: 15px;
+    padding: 3%;
+    overflow-y: auto;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.inner-modal:hover {
+    transform: scale(1.03);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.8);
+}
+
+/* Modal top */
+.close-btn {
+    background: #eeeeee83;
+    border: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 1.5em;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+.close-btn:hover {
+    background: #dddddd48;
+}
+.title {
+    /* color: white; */
+    text-align: center;
+    font-weight: bold;
+    font-size: 3rem;
+    margin-top: 2%;
+}
+
+/* Body content */
+.modal-body {
+    text-align: center;
+}
+.modal-img {
+    width: 90%;
+    /* max-width: 500px; */
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.8);
+}
+.modal-details {
+    font-size: 1.2rem;
+    text-align: center;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 5%;
+    margin: 3%;
+    margin-bottom: 0;
+    justify-content: center;
+}
+
+/* overview */
+.overview{
+    font-size: 1.2rem;
+    margin: 5%;
+}
+.overview-name {
+    margin-bottom: 1%;
+    font-size: 1.3rem;
+}
+.overview-content {
+    text-align: center;
+    font-style: italic;
+    margin: 0;
+}
+
+/* Trailer */
+.trailer > h3{
+    font-size: 1.5rem;
+    margin: 1%;
+}
+.trailer > iframe {
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.8);
+}
+.trailer > p{
+    font-size: 1.3rem;
+    font-style: italic;
+}

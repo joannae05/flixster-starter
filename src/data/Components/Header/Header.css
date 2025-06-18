@@ -1,15 +1,69 @@
 .header {
-    background-color: navy;
-    color: white;
-    margin: 0;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  background-color: maroon;
+  color: white;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 40px;
+  flex-wrap: wrap;
 }
+
 .header > h1 {
-    margin: 0;
-    padding: 30px;
+  margin: 0;
+  padding: 0;
+  font-size: 2rem;
 }
+
 .user-input {
-    padding: 30px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.user-input input[type="text"] {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 25px;
+  font-size: 1rem;
+  outline: none;
+  width: 220px;
+  transition: box-shadow 0.3s ease, width 0.3s ease;
+}
+
+.user-input input[type="text"]:focus {
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+  width: 250px;
+}
+
+.user-input button {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 25px;
+  font-size: 1rem;
+  cursor: pointer;
+  background-color: white;
+  color: maroon;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.user-input button:hover {
+  background-color: #c7c7c7;
+  transform: translateY(-1px);
+}
+
+#sort-dropdown {
+  padding: 10px 15px;
+  border-radius: 25px;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  background-color: white;
+  color: maroon;
+  transition: background-color 0.3s ease;
+}
+
+#sort-dropdown:hover {
+  background-color: #c7c7c7;
 }

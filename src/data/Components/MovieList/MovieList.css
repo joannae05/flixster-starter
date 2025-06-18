@@ -1,10 +1,29 @@
 .movie-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 40px;
-    margin: auto;
-    padding: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 40px;
+  margin: auto;
+  padding: 20px;
 }
 #load-more-btn {
-    margin: 20px;
+  margin: 20px;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: rgba(255, 255, 255, 0.515);
+  color: black;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#load-more-btn:hover {
+  background-color: #c7c7c7; /* Darker blue on hover */
+  transform: translateY(-2px);
+}
+
+#load-more-btn:active {
+  transform: scale(0.98);
+  background-color: #9d9d9d;
 }

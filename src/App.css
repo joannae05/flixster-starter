@@ -1,6 +1,6 @@
-/* .App {
-  text-align: center;
-} */
+.App {
+  background-color: rgb(69, 0, 0);
+}
 
 /* .App-header {
   background-color: #282c34;
@@ -26,3 +26,14 @@
     flex-direction: column;
   }
 } */
+
+/* Footer */
+footer {
+    background-color: maroon;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    bottom: 0;
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.4);
+    margin: 0;
+}

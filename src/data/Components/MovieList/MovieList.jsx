@@ -1,102 +1,99 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import axios from "axios";
-import './MovieList.css';
+import "./MovieList.css";
 import MovieCard from "../MovieCard/MovieCard";
+import MovieModal from "../MovieModal/MovieModal";
 
-function MovieList({searchQuery}) {
-        const [movies, setMovies] = useState([]);
-        const [page, setPage] = useState(1);
-        const [selectedMovie, setSelectedMovie] = useState(null);
-        const [showModal, setShowModal] = useState(false);
-        const [url, setURL] = useState("https://api.themoviedb.org/3/movie/now_playing?include_adult=false&")
-        // let baseURL = "https://api.themoviedb.org/3/movie/now_playing?"
-        const api = `api_key=${import.meta.env.VITE_API_KEY}`
+function MovieList({ searchQuery, sortOption }) {
+  const [movies, setMovies] = useState([]);
+  const [page, setPage] = useState(1);
+  const [selectedMovie, setSelectedMovie] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const api = `api_key=${import.meta.env.VITE_API_KEY}`;
 
-        // Fetching movie data from the TMDb API, the [] makes sure it calls once only on initial rendering
-        useEffect(() => {
-            const fetchList = async () => { try {
-                                                const { data } = await axios.get(`${url}${api}`);
-                                                setMovies(data.results);
-                                                console.log(data.results);
-                                            } catch (err) {
-                                                console.error("Error fetching list: ", err);}};
-            fetchList();
-        }, []);
+  useEffect(() => {
+    const fetchList = async () => {
+      try {
+        let thisURL;
 
-        // Load more functionality
-        useEffect(() => {
-            const fetchList = async () => { try {
-                                                const { data } = await axios.get(`${url}${api}&page=${page}`);
-                                                setMovies([...movies, ...data.results]);
-                                                console.log(data.results);
-                                            } catch (err) {
-                                                console.error("Error fetching list: ", err);}};
-            fetchList();
-        }, [page]);
-
-        const loadMore = () => {
-            setPage(page + 1);
+        if (sortOption) {
+          setPage(1);
+          thisURL =
+            "https://api.themoviedb.org/3/discover/movie?include_adult=false&language=en-US&";
+        } else if (searchQuery) {
+          setPage(1);
+          thisURL =
+            "https://api.themoviedb.org/3/search/movie?include_adult=false&language=en-US&";
+        } else {
+          thisURL =
+            "https://api.themoviedb.org/3/movie/now_playing?include_adult=false&language=en-US&";
         }
 
-        // Search functionality
-        useEffect(() => {
-            const fetchList = async () => { try {
-                                                let thisURL;
-                                                if (!searchQuery) {
-                                                    thisURL = "https://api.themoviedb.org/3/movie/now_playing?include_adult=false&";
-                                                } else {
-                                                    thisURL = "https://api.themoviedb.org/3/search/movie?include_adult=false&";
-                                                }
-                                                setURL(thisURL);
-                                                const { data } = await axios.get(`${thisURL}${api}&query=${searchQuery}`);
-                                                setMovies(data.results);
-                                                console.log(data.results);
-                                            } catch (err) {
-                                                console.error("Error fetching list: ", err);}};
-            fetchList();
-        }, [searchQuery]);
+        const { data } = await axios.get(
+          `${thisURL}${api}&sort_by=${sortOption}&page=${page}&query=${searchQuery}`
+        );
 
-        // clear button
+        if (page === 1) {
+          setMovies(data.results);
+        } else {
+          setMovies((prev) => [...prev, ...data.results]);
+        }
+      } catch (err) {
+        console.error("Error fetching list: ", err);
+      }
+    };
+    fetchList();
+  }, [sortOption, searchQuery, page]);
 
+  const loadMore = () => {
+    setPage(page + 1);
+  };
 
-        // //2 when card clicked, fetch details & open modal
-        // const handleCardClick = async (name) => {
-        //     setShowModal(true);
-        //     setSelectedPokemon(null); //trigger the loading state
-        //     try {
-        //     const { data } = await axios.get(
-        //         `https://pokeapi.co/api/v2/pokemon/${name}`
-        //     );
-        //     setSelectedPokemon(data);
-        //     } catch (err) {
-        //     console.error(`Error fetching ${name}: `, err);
-        //     }
-        // };
+  // Modal Functionality
+  const handleCardClick = async (movie) => {
+    setShowModal(true);
+    setSelectedMovie(null); // trigger the loading state and clear out any previous info
+    try {
+      const { data } = await axios.get(
+        `https://api.themoviedb.org/3/movie/${movie.id}?${api}`
+      );
+      setSelectedMovie(data);
+    } catch (err) {
+      console.error(`Error fetching ${movie.title}: `, err);
+    }
+  };
 
-        // //3 close modal
-        // const handleClose = () => {
-        //     setShowModal(false);
-        //     setSelectedPokemon(null);
-        // };
+  // Close Modal
+  const handleClose = () => {
+    setShowModal(false);
+    setSelectedMovie(null);
+  };
 
-        return (
-            <>
-                <div className="movie-list">
-                    {movies.map((m) => (
-                    // Looping through the fetched data and creating a MovieCard component for each individual movie
-                    <MovieCard
-                        key={m.id}
-                        title={m.title} 
-                        img={`https://image.tmdb.org/t/p/w500${m.poster_path}`}
-                        rating={m.vote_average}
-                        // onClick={() => handleCardClick(p.name)}
-                    />
-                    ))}
-                </div>
-                <button id="load-more-btn" onClick={loadMore}>Load More...</button>
-        </>
-    );
+  return (
+    <>
+      <div className="movie-list">
+        {movies.map((m) => (
+          // Looping through the fetched data and creating a MovieCard component for each individual movie
+          <MovieCard
+            key={m.id}
+            title={m.title}
+            imgPath={m.poster_path}
+            rating={m.vote_average}
+            onClick={() => handleCardClick(m)}
+          />
+        ))}
+      </div>
+      <button id="load-more-btn" onClick={loadMore}>
+        Load More...
+      </button>
+      <MovieModal // Modal here so that its after all the movie card components
+        show={showModal}
+        onClose={handleClose}
+        movie={selectedMovie}
+      />
+    </>
+  );
 }
 
 export default MovieList;
